@@ -11,10 +11,9 @@ public class MinusTest {
         Minus minus = new Minus();
         Lexer lexer = new Lexer("-123");
 
-        final Either<String, Tuple<Lexer, Integer>> parse = minus.parse(lexer);
+        final Either<String, Tuple<Lexer, Boolean>> parse = minus.parse(lexer);
 
         assertEquals(parse.right().v1.head(), '1');
-        assertEquals(parse.right().v2.intValue(), -1);
     }
 
     @Test
@@ -22,7 +21,7 @@ public class MinusTest {
         Minus minus = new Minus();
         Lexer lexer = new Lexer("123");
 
-        final Either<String, Tuple<Lexer, Integer>> parse = minus.parse(lexer);
+        final Either<String, Tuple<Lexer, Boolean>> parse = minus.parse(lexer);
 
         assertTrue(parse.isLeft());
     }

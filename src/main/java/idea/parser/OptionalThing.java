@@ -1,23 +1,26 @@
 package idea.parser;
 
-public abstract class OptionalThing<I, O> extends Thing<I, O> {
-    private final Thing<I, O> thing;
+import java.util.Optional;
 
-    public OptionalThing(Thing<I, O> thing) {
+public class OptionalThing<O> extends Thing<Lexer, Either<String, Tuple<Lexer, Optional<O>>>> {
+    private final Thing<Lexer, Either<String, Tuple<Lexer, O>>> thing;
+
+    public OptionalThing(Thing<Lexer, Either<String, Tuple<Lexer, O>>> thing) {
         this.thing = thing;
     }
 
-    public abstract O otherwise(I input);
-
-    public boolean canParse(I input) {
-        return true;
+    @Override
+    public boolean canParse(Lexer input) {
+        return thing.canParse(input);
     }
 
-    public O parse(I input) {
-        if (thing.canParse(input)) {
-            return thing.parse(input);
+    @Override
+    public Either<String, Tuple<Lexer, Optional<O>>> parse(Lexer input) {
+        if (canParse(input)) {
+            Either<String, Tuple<Lexer, O>> thingResult = thing.parse(input);
+            return Either.right(Tuple.from(thingResult.right().v1, Optional.of(thingResult.right().v2)));
         } else {
-            return otherwise(input);
+            return Either.right(Tuple.<Lexer, Optional<O>>from(input, Optional.empty()));
         }
     }
 }

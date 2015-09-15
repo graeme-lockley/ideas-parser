@@ -1,11 +1,13 @@
 package idea.parser;
 
-public class IntegerParser extends SequenceParser<Integer, Integer, Integer> {
+import java.util.Optional;
+
+public class IntegerParser extends SequenceParser<Optional<Boolean>, Integer, Integer> {
     /*
         Minus?  Digit+
      */
 
     public IntegerParser() {
-        super(new Minus(), new Digit(), (Integer v1, Integer v2) -> v1 * v2);
+        super(new OptionalThing<>(new Minus()), new Digit(), (Optional<Boolean> v1, Integer v2) -> v1.isPresent() ? -v2 : v2);
     }
 }

@@ -2,7 +2,7 @@ package idea.parser;
 
 import java.util.function.BiFunction;
 
-public abstract class SequenceParser<A, B, C> extends Thing<Lexer, Either<String, Tuple<Lexer, C>>> {
+public abstract class SequenceParser <A, B, C> extends Thing<Lexer, Either<String, Tuple<Lexer, C>>> {
     protected final Thing<Lexer, Either<String, Tuple<Lexer, A>>> first;
     protected final Thing<Lexer, Either<String, Tuple<Lexer, B>>> second;
     private BiFunction<A, B, C> mergeFunction;
